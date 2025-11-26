@@ -1,4 +1,5 @@
 # Todo Application (مهامي)
+
 Live Demo 👉 [https://todolisttarek.netlify.app/](https://todolisttarek.netlify.app/)
 
 A modern, feature-rich Todo application built with React and Material-UI. This application supports Arabic language (RTL) and provides a complete task management solution with local storage persistence.
@@ -11,6 +12,7 @@ A modern, feature-rich Todo application built with React and Material-UI. This a
 - ✓ **Mark as Complete** - Toggle completion status of tasks
 - 🔍 **Filter Todos** - View all, completed, or non-completed tasks
 - 💾 **Local Storage** - Todos are automatically saved to browser's local storage
+- 🔔 **Toast Notifications** - Feedback messages for user actions
 - 🌐 **RTL Support** - Full right-to-left layout for Arabic language
 - 🎨 **Material-UI Design** - Beautiful, modern interface using MUI components
 
@@ -32,17 +34,20 @@ A modern, feature-rich Todo application built with React and Material-UI. This a
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd my-app
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm start
 ```
@@ -65,10 +70,14 @@ my-app/
 │   └── index.html
 ├── src/
 │   ├── components/
+│   │   ├── Toast.js    # Toast notification component
 │   │   ├── Todo.js     # Individual todo item component
 │   │   └── Todolist.js # Main todo list container
 │   ├── contexts/
-│   │   └── todosContext.js  # React Context for state management
+│   │   ├── toastContext.js  # Context for toast notifications
+│   │   └── todosContext.js  # Context for todos state management
+│   ├── reducers/
+│   │   └── todosReducer.js  # Reducer for handling todo actions
 │   ├── App.js          # Main application component
 │   ├── App.css         # Application styles
 │   ├── index.js        # Application entry point
@@ -90,14 +99,18 @@ my-app/
 ## Features in Detail
 
 ### State Management
-- Uses React Context API (`TodosContext`) for global state management
+
+- Uses React Context API (`TodosContext`, `ToastContext`) for global state management
+- Uses `useReducer` hook for complex state logic
 - Todos are stored in component state and synchronized with localStorage
 
 ### Local Storage
+
 - All todos are automatically saved to browser's local storage
 - Todos persist across page refreshes and browser sessions
 
 ### UI/UX
+
 - Responsive design with Material-UI components
 - Dark theme background (#181616)
 - Custom color scheme for todo cards (#283593)
