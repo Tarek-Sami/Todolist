@@ -9,12 +9,11 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 // other imports
-import { useState, useContext, useEffect, useMemo } from 'react';
-import { TodosContext } from '../contexts/todosContext';
+import { useState, useContext, useEffect, useMemo, useReducer } from 'react';
 import { useToast } from '../contexts/toastContext';
-import { v4 as uuidv4 } from 'uuid';
 // component imports
 import Todo from './Todo';
+import todosReducer from '../reducers/todosReducer';
 // Dialog imports
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -23,7 +22,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 export default function Todolist() {
-  const { todos, setTodos } = useContext(TodosContext);
+  const [todos, dispatch] = useReducer(todosReducer, []);
   const { showHideToast } = useToast();
 
   const [titleInput, setTitleInput] = useState('');
@@ -74,52 +73,39 @@ export default function Todolist() {
     setShowDeleteDialog(false);
   }
 
-  function handleDeleteConfirm() {
-    const updatedTodos = todos.filter((t) => t.id !== dialogtodo.id);
-    setTodos(updatedTodos);
-    handleDeleteDialogClose();
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
-    showHideToast('تم حذف المهمة بنجاح');
-  }
-
   function handleEditDialogClose() {
     setShowEditDialog(false);
   }
 
+  function handleDeleteConfirm() {
+    dispatch({ type: 'delete', payload: dialogtodo });
+    handleDeleteDialogClose();
+    showHideToast('تم حذف المهمة بنجاح');
+  }
   function handleEditDialogConfirm() {
     // To be implemented
-    const updatedTodos = todos.map((t) => {
-      if (t.id === dialogtodo.id) {
-        return { ...t, title: dialogtodo.title, details: dialogtodo.details };
-      }
-      return t;
+    dispatch({
+      type: 'edit',
+      payload: dialogtodo,
     });
-    setTodos(updatedTodos);
     handleEditDialogClose();
-    setShowEditDialog(false);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
     showHideToast('تم تعديل المهمة بنجاح');
   }
 
   function handleAddTodo() {
-    const newTodo = {
-      id: uuidv4(),
-      title: titleInput,
-      details: '',
-      isCompleted: false,
-    };
-    const updatedTodos = [...todos, newTodo];
-    setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
+    dispatch({
+      type: 'add',
+      payload: {
+        title: titleInput,
+      },
+    });
     setTitleInput('');
     showHideToast('تمت إضافة المهمة بنجاح');
   }
 
   useEffect(() => {
-    const storgeTodos = JSON.parse(localStorage.getItem('todos')) || [];
-    setTodos(storgeTodos);
+    dispatch({ type: 'get' });
   }, []);
-
   const todosJsx = todosToBeDisplayed.map((todo) => {
     return (
       <Todo
