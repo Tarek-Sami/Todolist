@@ -1,43 +1,41 @@
 # Todo Application (مهامي)
 
-Live Demo 👉 [https://todolisttarek.netlify.app/](https://todolisttarek.netlify.app/)
+A feature-rich todo app built with React and Material UI. The interface is in Arabic with full RTL layout, local storage persistence, and an animated WebGL background.
 
-A modern, feature-rich Todo application built with React and Material-UI. This application supports Arabic language (RTL) and provides a complete task management solution with local storage persistence.
+**Live demo:** [todolisttarek.netlify.app](https://todolisttarek.netlify.app/)
 
 ## Features
 
-- ✅ **Add Todos** - Create new tasks with titles
-- ✏️ **Edit Todos** - Update existing task titles and details
-- 🗑️ **Delete Todos** - Remove tasks with confirmation dialog
-- ✓ **Mark as Complete** - Toggle completion status of tasks
-- 🔍 **Filter Todos** - View all, completed, or non-completed tasks
-- 💾 **Local Storage** - Todos are automatically saved to browser's local storage
-- 🔔 **Toast Notifications** - Feedback messages for user actions
-- 🌐 **RTL Support** - Full right-to-left layout for Arabic language
-- 🎨 **Material-UI Design** - Beautiful, modern interface using MUI components
+- Add, edit, delete, and mark todos complete
+- Filter by all, completed, or non-completed tasks
+- Confirmation dialog before delete; edit dialog for title and details
+- Toast notifications for user feedback
+- Todos persisted in the browser via `localStorage`
+- RTL Arabic UI with Tajawal typography
+- Animated `DarkVeil` background (OGL + GSAP)
 
-## Technologies Used
+## Tech stack
 
-- **React** (v19.1.0) - UI library
-- **Material-UI (MUI)** (v7.3.5) - Component library
-- **React Router DOM** (v6.30.1) - Routing (if needed)
-- **UUID** (v13.0.0) - Unique ID generation
-- **React Scripts** (v5.0.1) - Build tooling
+- React 19 (CRA)
+- Material UI (MUI) 7
+- React Context API + `useReducer` for state
+- UUID for unique todo IDs
+- `react-router-dom` (wraps the app in `index.js` for future routing)
+- OGL, GSAP — background effect in `src/component/DarkVeil.jsx`
 
-## Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn package manager
+- Node.js 14+
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository:
+1. Go to the project folder:
 
 ```bash
-git clone <repository-url>
-cd my-app
+cd TodoList
 ```
 
 2. Install dependencies:
@@ -52,86 +50,68 @@ npm install
 npm start
 ```
 
-The application will open in your browser at `http://localhost:3000`
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Available Scripts
+## Available scripts
 
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production to the `build` folder
-- `npm run eject` - Ejects from Create React App (one-way operation)
+| Command | Description |
+| --- | --- |
+| `npm start` | Development server |
+| `npm test` | Test runner (watch mode) |
+| `npm run build` | Production build to `build/` |
+| `npm run eject` | Eject from CRA (one-way) |
 
-## Project Structure
+## Project structure
 
 ```
-my-app/
+TodoList/
 ├── public/
-│   ├── fonts/          # Tajawal font files
+│   ├── fonts/              # Tajawal font files
 │   └── index.html
 ├── src/
 │   ├── components/
-│   │   ├── Toast.js    # Toast notification component
-│   │   ├── Todo.js     # Individual todo item component
-│   │   └── Todolist.js # Main todo list container
+│   │   ├── Toast.js        # Toast notification UI
+│   │   ├── Todo.js         # Single todo row
+│   │   └── Todolist.js     # List, filters, dialogs
+│   ├── component/
+│   │   └── DarkVeil.jsx    # Animated background
 │   ├── contexts/
-│   │   ├── toastContext.js  # Context for toast notifications
-│   │   └── todosContext.js  # Context for todos state management
+│   │   ├── toastContext.js
+│   │   └── todosContext.js
 │   ├── reducers/
-│   │   └── todosReducer.js  # Reducer for handling todo actions
-│   ├── App.js          # Main application component
-│   ├── App.css         # Application styles
-│   ├── index.js        # Application entry point
-│   └── index.css       # Global styles
+│   │   └── todosReducer.js # Actions: add, edit, delete, complete
+│   ├── App.js              # Theme, providers, layout
+│   ├── App.css
+│   └── index.js
 └── package.json
 ```
 
 ## Usage
 
-1. **Adding a Todo**: Enter a task title in the input field and click the "إضافة" (Add) button
-2. **Completing a Todo**: Click the checkmark icon to mark a task as completed
-3. **Editing a Todo**: Click the edit icon to modify a task's title and details
-4. **Deleting a Todo**: Click the delete icon and confirm the deletion
-5. **Filtering Todos**: Use the toggle buttons to filter between:
-   - غير منجز (Non-completed)
-   - منجز (Completed)
-   - الكل (All)
+1. **Add** — Enter a title and click **إضافة**
+2. **Complete** — Use the checkmark control on a todo
+3. **Edit** — Open the edit dialog to change title and details
+4. **Delete** — Confirm in the delete dialog
+5. **Filter** — Toggle **غير منجز** / **منجز** / **الكل**
 
-## Features in Detail
+## State management
 
-### State Management
+- `TodosContext` holds todos and dispatch; `todosReducer` handles actions and syncs to `localStorage` under the key `todos`
+- `ToastContext` drives short-lived feedback messages
 
-- Uses React Context API (`TodosContext`, `ToastContext`) for global state management
-- Uses `useReducer` hook for complex state logic
-- Todos are stored in component state and synchronized with localStorage
+## UI notes
 
-### Local Storage
+- Dark theme (`#181616`) with indigo todo cards (`#283593`)
+- Full-screen `DarkVeil` layer behind content (`pointer-events: none` so controls stay clickable)
 
-- All todos are automatically saved to browser's local storage
-- Todos persist across page refreshes and browser sessions
+## Browser support
 
-### UI/UX
-
-- Responsive design with Material-UI components
-- Dark theme background (#181616)
-- Custom color scheme for todo cards (#283593)
-- RTL (Right-to-Left) layout support for Arabic text
-- Tajawal font family for Arabic typography
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+Recent versions of Chrome, Firefox, Safari, and Edge.
 
 ## License
 
-This project is private and not licensed for public use.
+Private — not licensed for public reuse.
 
 ## Author
 
-Created as part of a React Front-End Course project.
-
----
-
-**Note**: This application is configured for Arabic language interface. All UI text and interactions are in Arabic with RTL layout support.
+Created as part of the **React Front-End Course**.
